@@ -21,6 +21,6 @@ public class ExplosionTest : MonoBehaviour
     public void Die()
     {
         deathParticles.transform.position = transform.position;
-        deathParticles.Play();
+        deathParticles.Emit(20);
     }
 }
