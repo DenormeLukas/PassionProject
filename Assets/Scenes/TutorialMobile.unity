@@ -2489,7 +2489,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press E to turn the lights on or off.
+  m_text: Swipe down to turn the lights on or off.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f3702c88424945f39a5e0788bc7ce2a, type: 2}
   m_sharedMaterial: {fileID: -3507390620489036828, guid: 2f3702c88424945f39a5e0788bc7ce2a, type: 2}

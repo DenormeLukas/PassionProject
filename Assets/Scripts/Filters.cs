@@ -30,6 +30,8 @@ public class Filters : MonoBehaviour
     public Slider coolDownSlider;
     private float targetProgress = 0;
 
+    private Vector2 startPos;
+
     void Start()
     {
         volumeProfile = GetComponent<Volume>().profile;
@@ -42,65 +44,8 @@ public class Filters : MonoBehaviour
         isBlurred = false;
 
         coolDownSlider.value = 1.0f;
+        NormalSpeed();
 
-      //  coolDownSlider = gameObject.GetComponent<Slider>();
-    }
-
-    void Update()
-    {
-
-        if (Input.GetKeyDown(toggleKey))
-        {
-            increasing = !increasing;
-            targetTime = Time.time + transitionDuration;
-        }
-
-        if (Input.GetKeyDown(toggleKey2))
-        {
-            if(isBlurred)
-            {
-                isBlurred = false;
-            } else
-            {
-                isBlurred = true;
-            }
-
-            depthOfFieldEnabled = !depthOfFieldEnabled;
-            depthOfField.active = depthOfFieldEnabled;
-            
-        }
-
-        if (Input.GetKeyDown(timeKey))
-        {
-            if(!coolDown)
-            {
-                Time.timeScale = 0.5f;
-                Invoke("NormalSpeed", slowMotionTime);
-                coolDownSlider.value = 0.01f;
-                coolDown = true;
-            }       
-
-        }
-
-        if (increasing)
-        {
-            currentExposure = Mathf.Lerp(currentExposure, targetExposure, (targetTime - Time.time) / transitionDuration);
-            isDark = true;
-        }
-        else
-        {
-            currentExposure = Mathf.Lerp(currentExposure, 0, (targetTime - Time.time) / transitionDuration);
-            isDark = false;
-        }
-
-        volumeProfile.TryGet(out ColorAdjustments colorAdjustments);
-        colorAdjustments.postExposure.value = currentExposure;
-
-        //Smooth animation to fill up cooldown slider
-        if(coolDownSlider.value < targetProgress)
-        {
-            coolDownSlider.value += 0.075f * Time.deltaTime;
-        }
     }
 
     private void NormalSpeed()
@@ -121,4 +66,126 @@ public class Filters : MonoBehaviour
     {
         targetProgress = coolDownSlider.value + newProgress;
     }
+
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
+
+    void Update()
+    {
+
+        if (Input.GetKeyDown(toggleKey))
+        {
+            increasing = !increasing;
+            targetTime = Time.time + transitionDuration;
+        }
+
+        if (Input.GetKeyDown(toggleKey2))
+        {
+            if (isBlurred)
+            {
+                isBlurred = false;
+            }
+            else
+            {
+                isBlurred = true;
+            }
+
+            depthOfFieldEnabled = !depthOfFieldEnabled;
+            depthOfField.active = depthOfFieldEnabled;
+
+        }
+
+        if (Input.GetKeyDown(timeKey))
+        {
+            if (!coolDown)
+            {
+                Time.timeScale = 0.5f;
+                Invoke("NormalSpeed", slowMotionTime);
+                coolDownSlider.value = 0.01f;
+                coolDown = true;
+            }
+
+        }
+
+        if (increasing)
+        {
+            currentExposure = Mathf.Lerp(currentExposure, targetExposure, (targetTime - Time.time) / transitionDuration);
+            isDark = true;
+        }
+        else
+        {
+            currentExposure = Mathf.Lerp(currentExposure, 0, (targetTime - Time.time) / transitionDuration);
+            isDark = false;
+        }
+
+        volumeProfile.TryGet(out ColorAdjustments colorAdjustments);
+        colorAdjustments.postExposure.value = currentExposure;
+
+        //Smooth animation to fill up cooldown slider
+        if (coolDownSlider.value < targetProgress)
+        {
+            coolDownSlider.value += 0.075f * Time.deltaTime;
+        }
+
+    }
+
+#elif UNITY_IOS || UNITY_ANDROID
+
+    void Update()
+    {
+
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                // Record the starting position of the touch
+                startPos = touch.position;
+            }
+
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                // Calculate the swipe delta
+                Vector2 swipeDelta = touch.position - startPos;
+
+                // Check the magnitude of the swipe delta
+                if (Mathf.Abs(swipeDelta.x) > Mathf.Abs(swipeDelta.y))
+                {
+                    // Horizontal swipe
+                    if (swipeDelta.x > 0)
+                    {
+                        // Right swipe
+                        Debug.Log("Right Swipe");
+                    }
+                    else
+                    {
+                        // Left swipe
+                        Debug.Log("Left Swipe");
+
+                    }
+                }
+                else
+                {
+                    // Vertical swipe
+                    if (swipeDelta.y > 0)
+                    {
+                        // Up swipe
+                        Debug.Log("Up Swipe");
+                    }
+                    else
+                    {
+                        // Down swipe
+                        Debug.Log("Down Swipe");
+                    }
+                }
+            }
+        }
+
+
+    }
+    
+    
+
+#endif
+
 }

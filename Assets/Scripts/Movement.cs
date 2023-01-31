@@ -19,6 +19,10 @@ public class Movement : MonoBehaviour
     private AudioSource death;
     private AudioSource jump;
 
+    private float touchDuration;
+    private float touchStartTime;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -30,41 +34,13 @@ public class Movement : MonoBehaviour
         jump = GameObject.Find("Jump").GetComponent<AudioSource>();
     }
 
-    void Update()
-    {
-
-        //Move player according to camera speed
-        float moveAmount = CameraMovement.speed * Time.deltaTime;
-        transform.position += new Vector3(moveAmount, 0, 0);
-
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-            jump.Play();
-        }
-
-        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
-        {
-            if (Input.touchCount > 0)
-            {
-                if (Input.GetTouch(0).phase == TouchPhase.Began && isGrounded)
-                {
-                    rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-                    jump.Play();
-                }
-            }
-        }
-
-        FelDown();
-    }
-
     //Check if player fell in a hole
     void FelDown()
     {
         if (transform.position.y < -12.0f)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             death.Play();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
@@ -72,7 +48,7 @@ public class Movement : MonoBehaviour
     //Check collisions. Able to jump? Touching any death triggers? Any filters active?
     void OnCollisionStay2D(Collision2D col)
     {
-        if (col.gameObject.GetComponent<SpriteRenderer>().color != Color.black && col.gameObject.GetComponent<SpriteRenderer>().color  != Color.white)
+        if (col.gameObject.GetComponent<SpriteRenderer>().color != Color.black && col.gameObject.GetComponent<SpriteRenderer>().color != Color.white)
         {
             if (!Filters.isDark)
             {
@@ -130,7 +106,7 @@ public class Movement : MonoBehaviour
 
 
         //Check which level is completed and update booleans
-        if(currScene == "Level2")
+        if (currScene == "Level2")
         {
             l2 = true;
         }
@@ -142,6 +118,67 @@ public class Movement : MonoBehaviour
         SceneManager.LoadScene("Levels");
     }
 
+
+
+    #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
+
+    void Update()
+    {
+
+        //Move player according to camera speed
+        float moveAmount = CameraMovement.speed * Time.deltaTime;
+        transform.position += new Vector3(moveAmount, 0, 0);
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+            jump.Play();
+        }
+
+        FelDown();
+    }
+
+
+
+#elif UNITY_IOS || UNITY_ANDROID
+
+    void Update()
+    {
+
+        //Move player according to camera speed
+        float moveAmount = CameraMovement.speed * Time.deltaTime;
+        transform.position += new Vector3(moveAmount, 0, 0);
+
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                touchStartTime = Time.time;
+            }
+
+            if (touch.phase == TouchPhase.Ended)
+            {
+                touchDuration = Time.time - touchStartTime;
+
+                if (touchDuration < 0.2f)
+                {
+                    // Checks if its a short touch or a long touch, short touch -> jump, otherwise -> check filter.cs
+                    if (isGrounded)
+                    {
+                        rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+                        jump.Play();
+                    }
+                }
+            }
+
+            FelDown();
+        }
+
+    }
+
+#endif
+
+    
 }
-
-

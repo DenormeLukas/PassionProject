@@ -6557,7 +6557,7 @@ MonoBehaviour:
   toggleKey2: 114
   timeKey: 116
   slowMotionTime: 2
-  coolDownSlider: {fileID: 0}
+  coolDownSlider: {fileID: 148119469}
 --- !u!114 &1020119669
 MonoBehaviour:
   m_ObjectHideFlags: 0
