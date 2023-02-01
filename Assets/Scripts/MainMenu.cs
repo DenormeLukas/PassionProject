@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadTutorial()
     {
-        #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
+#if !UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_WEBGL
         SceneManager.LoadScene(tutorial);
         #elif UNITY_IOS || UNITY_ANDROID
         SceneManager.LoadScene(tutorialMobile);

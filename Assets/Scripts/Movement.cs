@@ -119,7 +119,7 @@ public class Movement : MonoBehaviour
 
 
 
-    #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
+#if !UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL || UNITY_WEBPLAYER
 
     void Update()
     {

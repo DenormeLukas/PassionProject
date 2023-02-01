@@ -63,7 +63,7 @@ public class Filters : MonoBehaviour
         targetProgress = coolDownSlider.value + newProgress;
     }
 
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_WEBGL
 
     void Update()
     {
