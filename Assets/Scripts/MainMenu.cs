@@ -17,14 +17,23 @@ public class MainMenu : MonoBehaviour
     public string l2;
     public string l3;
 
+    public GameObject text;
+
+    void Start()
+    {
+#if UNITY_IOS || UNITY_ANDROID
+        text.SetActive(false);
+#endif
+    }
+
 
     public void LoadTutorial()
     {
 #if !UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_WEBGL
         SceneManager.LoadScene(tutorial);
-        #elif UNITY_IOS || UNITY_ANDROID
+#elif UNITY_IOS || UNITY_ANDROID
         SceneManager.LoadScene(tutorialMobile);
-        #endif
+#endif
     }
 
     public void LoadLevels()

@@ -134,6 +134,11 @@ public class Movement : MonoBehaviour
             jump.Play();
         }
 
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+
         FelDown();
     }
 
