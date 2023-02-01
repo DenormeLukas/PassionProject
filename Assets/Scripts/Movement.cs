@@ -99,7 +99,6 @@ public class Movement : MonoBehaviour
     //Level finished
     void Finished()
     {
-        Debug.Log("Finished");
 
         //Get current level
         currScene = SceneManager.GetActiveScene().name;
@@ -161,8 +160,8 @@ public class Movement : MonoBehaviour
             if (touch.phase == TouchPhase.Ended)
             {
                 touchDuration = Time.time - touchStartTime;
-
-                if (touchDuration < 0.2f)
+                 
+                if (touchDuration < 0.2f && Filters.swipeDelta.x < 50.0f && Filters.swipeDelta.x > -50.0f && Filters.swipeDelta.y < 50.0f && Filters.swipeDelta.y > -50.0f)
                 {
                     // Checks if its a short touch or a long touch, short touch -> jump, otherwise -> check filter.cs
                     if (isGrounded)
@@ -180,5 +179,5 @@ public class Movement : MonoBehaviour
 
 #endif
 
-    
+
 }

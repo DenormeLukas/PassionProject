@@ -31,6 +31,7 @@ public class Filters : MonoBehaviour
     private float targetProgress = 0;
 
     private Vector2 startPos;
+    static public Vector2 swipeDelta;
 
     void Start()
     {
@@ -50,15 +51,10 @@ public class Filters : MonoBehaviour
 
     private void NormalSpeed()
     {
-        Time.timeScale = 1.0f;
 
+         Time.timeScale = 1.0f;
 
          CoolDownSlider(1.0f);
-
-         if (coolDownSlider.value == 1.0f)
-         {
-                coolDown = false;
-         }
         
     }
 
@@ -106,6 +102,8 @@ public class Filters : MonoBehaviour
 
         }
 
+
+
         if (increasing)
         {
             currentExposure = Mathf.Lerp(currentExposure, targetExposure, (targetTime - Time.time) / transitionDuration);
@@ -124,6 +122,11 @@ public class Filters : MonoBehaviour
         if (coolDownSlider.value < targetProgress)
         {
             coolDownSlider.value += 0.075f * Time.deltaTime;
+
+            if (coolDownSlider.value == 1f)
+            {
+                coolDown = false;
+            }
         }
 
     }
@@ -146,7 +149,7 @@ public class Filters : MonoBehaviour
             else if (touch.phase == TouchPhase.Ended)
             {
                 // Calculate the swipe delta
-                Vector2 swipeDelta = touch.position - startPos;
+                swipeDelta = touch.position - startPos;
 
                 // Check the magnitude of the swipe delta
                 if (Mathf.Abs(swipeDelta.x) > Mathf.Abs(swipeDelta.y))
@@ -221,6 +224,11 @@ public class Filters : MonoBehaviour
         if (coolDownSlider.value < targetProgress)
         {
             coolDownSlider.value += 0.075f * Time.deltaTime;
+
+             if (coolDownSlider.value == 1f)
+            {
+                coolDown = false;
+            }
         }
 
     }

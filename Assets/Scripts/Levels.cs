@@ -18,7 +18,7 @@ public class Levels : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     void Update()
@@ -27,7 +27,7 @@ public class Levels : MonoBehaviour
         if (Movement.l2)
         {
             rawImage2.color = Color.black;
-            button2.interactable = false;
+            button2.interactable = true;
         }
         else
         {
@@ -38,7 +38,7 @@ public class Levels : MonoBehaviour
         if (Movement.l3)
         {
             rawImage3.color = Color.black;
-            button3.interactable = false;
+            button3.interactable = true;
         }
         else
         {

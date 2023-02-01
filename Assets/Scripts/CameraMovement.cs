@@ -20,7 +20,12 @@ public class CameraMovement : MonoBehaviour
     {
         transform.position += Vector3.right * speed * Time.deltaTime;
 
-        if (currScene.name != "Tutorial" || currScene.name != "TutorialMobile")
+        if (currScene.name == "Tutorial" || currScene.name == "TutorialMobile")
+        {
+
+            speed = 5.0f;
+
+        } else
         {
             timeSinceIncrease += Time.deltaTime;
             if (timeSinceIncrease >= increaseInterval)
