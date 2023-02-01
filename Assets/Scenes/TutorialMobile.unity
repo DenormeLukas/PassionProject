@@ -1604,7 +1604,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press R to make the screen blurry.
+  m_text: Swipe up to make the screen blurry and clear again.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f3702c88424945f39a5e0788bc7ce2a, type: 2}
   m_sharedMaterial: {fileID: -3507390620489036828, guid: 2f3702c88424945f39a5e0788bc7ce2a, type: 2}
@@ -2661,7 +2661,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press space to jump.
+  m_text: Tap screen to jump
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f3702c88424945f39a5e0788bc7ce2a, type: 2}
   m_sharedMaterial: {fileID: -3507390620489036828, guid: 2f3702c88424945f39a5e0788bc7ce2a, type: 2}
@@ -5789,7 +5789,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: When stuff gets hard, press 'T' to slow down time. This only works when
+  m_text: When stuff gets hard, swipe left to slow down time. This only works when
     the bar is full.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f3702c88424945f39a5e0788bc7ce2a, type: 2}

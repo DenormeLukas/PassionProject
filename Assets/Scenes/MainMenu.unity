@@ -1498,9 +1498,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorial: Tutorial
+  tutorialMobile: TutorialMobile
   levels: Levels
   credits: Credits
-  main: 
-  l1: 
-  l2: 
-  l3: 
+  main: MainMenu
+  l1: Level1
+  l2: Level2
+  l3: Level3

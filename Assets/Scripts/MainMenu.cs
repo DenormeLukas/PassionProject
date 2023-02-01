@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
 {
 
     public string tutorial;
+    public string tutorialMobile;
     public string levels;
     public string credits;
     public string main;
@@ -19,7 +20,11 @@ public class MainMenu : MonoBehaviour
 
     public void LoadTutorial()
     {
+        #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
         SceneManager.LoadScene(tutorial);
+        #elif UNITY_IOS || UNITY_ANDROID
+        SceneManager.LoadScene(tutorialMobile);
+        #endif
     }
 
     public void LoadLevels()

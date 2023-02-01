@@ -154,14 +154,18 @@ public class Filters : MonoBehaviour
                     // Horizontal swipe
                     if (swipeDelta.x > 0)
                     {
-                        // Right swipe
-                        Debug.Log("Right Swipe");
+                        //Right swipe
                     }
                     else
                     {
                         // Left swipe
-                        Debug.Log("Left Swipe");
-
+                        if (!coolDown)
+                         {
+                            Time.timeScale = 0.5f;
+                            Invoke("NormalSpeed", slowMotionTime);
+                            coolDownSlider.value = 0.01f;
+                            coolDown = true;
+                         }
                     }
                 }
                 else
@@ -170,17 +174,54 @@ public class Filters : MonoBehaviour
                     if (swipeDelta.y > 0)
                     {
                         // Up swipe
-                        Debug.Log("Up Swipe");
-                    }
+                        if (isBlurred)
+                        {
+                            isBlurred = false;
+                        }
+                        else
+                        {
+                            isBlurred = true;
+                        }
+
+                            depthOfFieldEnabled = !depthOfFieldEnabled;
+                            depthOfField.active = depthOfFieldEnabled;
+                        }
                     else
                     {
-                        // Down swipe
-                        Debug.Log("Down Swipe");
+                        // Down swipe, prevent a simple touch from being a down swipe
+                        Debug.Log(swipeDelta.y);
+                        if(swipeDelta.y < -50.0f) {
+
+                         increasing = !increasing;
+                         targetTime = Time.time + transitionDuration;
+
+                        }
+
+                       
                     }
                 }
             }
         }
 
+        if (increasing)
+        {
+            currentExposure = Mathf.Lerp(currentExposure, targetExposure, (targetTime - Time.time) / transitionDuration);
+            isDark = true;
+        }
+        else
+        {
+            currentExposure = Mathf.Lerp(currentExposure, 0, (targetTime - Time.time) / transitionDuration);
+            isDark = false;
+        }
+
+        volumeProfile.TryGet(out ColorAdjustments colorAdjustments);
+        colorAdjustments.postExposure.value = currentExposure;
+
+        //Smooth animation to fill up cooldown slider
+        if (coolDownSlider.value < targetProgress)
+        {
+            coolDownSlider.value += 0.075f * Time.deltaTime;
+        }
 
     }
     
